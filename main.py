@@ -1,4 +1,8 @@
+import parsing
+
+
 input = [list('3SO2'), 1]
+
 
 def recognition(input):
     for symbol in range(len(input[0])):
@@ -28,11 +32,14 @@ def recognition(input):
             None
     return input
 
+
 print(recognition(input))
+
 
 def definition(input):
     if len(input[0]) == 2 and 'O' in input[0][1]:
         input.append('oxide')
     print(input)
+
 
 definition(recognition(input))
