@@ -11,9 +11,24 @@ for x in result:
     values = x.find_all('b')
     table.append([])
     for y in values:
-        table[result.index(x)].append(y.text)
+        element = y.text
+        if len(y.text) != 1:
+            if y.text[-1] in ['+', '-', '–']:
+                try:
+                    int(y.text[-2])
+                    element = [y.text[:-2], y.text[-2:]]
+                except:
+                    element = [y.text[:-1], y.text[-1:]]
+                if len(element[0]) != 1:
+                    for z in element[0][1:]:
+                        try:
+                            int(z)
+                        except ValueError:
+                            split1 = element[0].split(element[0][1:][element[0][1:].index(z)])[0]
+                            split2 = element[0].split(element[0][1:][element[0][1:].index(z)])[1]
+                            element[0] = split1 + element[0][1:][element[0][1:].index(z)].lower() + split2
+        table[result.index(x)].append(element)
 
-#print(table)
 
 r = urllib.request.urlopen('https://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D0%BB%D1%8B')
 soup = BeautifulSoup(r.read(), features = "lxml")
