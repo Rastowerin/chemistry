@@ -101,6 +101,3 @@ def restrictions(valence):
             valence[x] = [2, 3]
 
 restrictions(valence)
-
-
-#print(valence)

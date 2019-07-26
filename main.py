@@ -1,7 +1,7 @@
 import parsing
 
 
-input = '2H6(PO4)2'
+input = '2Fe3(PO4)2'
 
 
 def recognition(input):
@@ -20,12 +20,17 @@ def recognition(input):
                     input = [input[0][1:], int(input[0][0])]
                 except:
                     None
+            print(input[0])
+            print(input[0][symbol])
             if input[0][symbol] == '(':
-                dots = ''
-                input[0][symbol] = (input[0][input[0].index(')') + 1]) + str(dots.join(input[0][symbol + 1: input[0].index(')')]))
-                x = input[0][input[0].index(')') + 2:]
-                input[0] = input[0][:symbol + 1]
-                input[0].extend(x)
+                print(input[0])
+                input[0][symbol] = input[0][input[0].index('(') : input[0].index(')')]
+#                dots = ''
+#                input[0][symbol] = (input[0][input[0].index(')') + 1]) + str(dots.join(input[0][symbol + 1: input[0].index(')')]))
+#                x = input[0][input[0].index(')') + 2:]
+#                input[0] = input[0][:symbol + 1]
+#                input[0].extend(x)
+                print(input, 1)
             if symbol != 0:
                 try:
                     int(input[0][symbol])
@@ -57,6 +62,7 @@ def definition(input):
     else:
         input[0] = [input[0][0], input[0][1:]]
         input[0][1] = [input[0][1]]
+#        print(input)
         input[0][1] = [input[0][1][0], acid_residue_valence(input)]
 
     if input[0][0][2] == 'metal':
@@ -101,6 +107,7 @@ def definition(input):
 def acid_residue_valence(input):
     for b in parsing.table:
         for c in b:
+#            print(c[0], acid_residue(input))
             if c[0] == acid_residue(input):
                 return c[1][0]
     raise ValueError
@@ -110,11 +117,14 @@ def acid_residue(input):
     for a in input[0][1][0]:
         if input[0][1][0].index(a) != 0:
             result += a[0].lower()
+#            print(result)
         else:
             result += a[0][0]
+#            print(result)
         if a[1] != '1':
             result += a[1][0]
+#            print(result)
     return result
 
-
-definition(recognition(input))
+print(recognition(input))
+#definition(recognition(input))
