@@ -122,5 +122,6 @@ def restrictions(valence):
         elif x == 'Fe':
             valence[x] = [2, 3]
 
+
 restrictions(valence)
 
