@@ -1,5 +1,19 @@
 import urllib.request
+import codecs
+import json
 from bs4 import BeautifulSoup
+
+
+def save(data, file_name):
+    with codecs.open(file_name + ".txt", "w", "utf-8-sig") as file:
+        file.write(data)
+        file.close()
+
+
+def open(file_name):
+    with codecs.open(file_name + ".txt", "r", "utf-8-sig") as json_data:
+        data = json.load(json_data)
+        return data
 
 
 r = urllib.request.urlopen('http://www.sev-chem.narod.ru/spravochnik/rastvor.htm')
@@ -30,6 +44,9 @@ for x in result:
                             element[0] = split1 + element[0][1:][element[0][1:].index(z)].lower() + split2
         table[result.index(x)].append(element)
 
+save(str(table), 'table')
+
+
 r = urllib.request.urlopen('https://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D0%BB%D1%8B')
 soup = BeautifulSoup(r.read(), features="lxml")
 
@@ -49,6 +66,8 @@ result = soup.find_all('table')[1].find_all('tr')
 for x in result:
     if result.index(x) != 0:
         all_elements.append(x.find_all('td')[2].text)
+
+save(str(all_elements), 'all_elements')
 
 
 r = urllib.request.urlopen('https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D1%81%D1%82%D0%B5%D0%BF%D0%B5%D0%BD%D0%B5%D0%B9_%D0%BE%D0%BA%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2')
@@ -93,6 +112,9 @@ for x in result2:
 
         valence[x] = element_valence
 
+save(str(valence), 'valence')
+
+
 def restrictions(valence):
     for x in valence.keys():
         if x == 'O':
@@ -101,3 +123,4 @@ def restrictions(valence):
             valence[x] = [2, 3]
 
 restrictions(valence)
+
